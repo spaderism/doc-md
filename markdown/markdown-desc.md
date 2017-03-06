@@ -1,6 +1,7 @@
 # Markdown Guide
 
 **Emphasis**
+
 ```
 **bold**
 *italics*
@@ -15,6 +16,7 @@
 ---
 
 **Headers**
+
 ```
 <h1> ~ <h6>
 
@@ -26,6 +28,7 @@
 ```
 
 **Headers Example**
+
 # Big header
 ## Medium header
 ### Small header
@@ -34,6 +37,7 @@
 ---
 
 **Lists**
+
 ```
 * Generic list item
 * Generic list item
@@ -45,6 +49,7 @@
 ```
 
 **Lists Example**
+
 * Generic list item
 * Generic list item
 * Generic list item
@@ -56,28 +61,33 @@
 ---
 
 **Links**
+
 ```
 [Text to display](http://www.example.com)
 ```
 
 **Links Example**
+
 [Text to display](http://www.example.com)
 
 ---
 
 **Quotes**
+
 ```
 > This is a quote.
 > It can span multiple lines!
 ```
 
 **Quotes Example**
+
 > This is a quote.
 > It can span multiple lines!
 
 ---
 
 **Images** *Need to upload an image? [Imgur](http://imgur.com/) has a great interface.*
+
 ```
 ![](http://www.example.com/image.jpg)
 ```
@@ -85,6 +95,7 @@
 ---
 
 **Tables**
+
 ```
 | Column 1 | Column 2 | Column 3 |
 | -------- | -------- | -------- |
@@ -100,6 +111,7 @@ Or without aligning the columns...
 ```
 
 **Table Example**
+
 | Column 1 | Column 2 | Column 3 |
 | -------- | -------- | -------- |
 | John     | Doe      | Male     |
@@ -113,4 +125,5 @@ Or without aligning the columns...
 ```
 
 **Displaying code Example**
+
 `var example = "hello!";`
