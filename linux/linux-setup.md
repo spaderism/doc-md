@@ -1,4 +1,4 @@
-# Linux Setup
+# Linux(CentOS) Setup
 
 **iso file to usb boot disk convert [iso2usb](http://iso2usb.sourceforge.net/)**
 
