@@ -1,4 +1,10 @@
-# Linux(CentOS) Development Tools Setup<br>(2017/03/10 기준 lastest version)
+# Linux(CentOS) Development Tools Setup
+
+**환경변수 등록**
+```
+# vim /etc/profile(edit)
+# source /etc/profile
+```
 
 **Redis**
 ```
@@ -80,4 +86,97 @@ CONF="/home/apps/redis/redis.conf"
 # ln -s /home/apps/jdk/bin/javac /usr/local/bin/javac
 # ln -s /home/apps/jdk/bin/javap /usr/local/bin/javap
 
+# vim /etc/profile
+---
+export JAVA_HOME=/home/apps/jdk
+export PATH=$JAVA_HOME/bin:$PATH
+---
+
+# source /etc/profile
+
+# echo $JAVA_HOME
+```
+
+---
+
+**Tomcat**
+```
+# cd /home/apps
+
+# wget http://mirror.navercorp.com/apache/tomcat/tomcat-8/v8.5.11/bin/apache-tomcat-8.5.11.tar.gz
+
+# tar zxvf apache-tomcat-8.5.11.tar.gz
+
+# mv apache-tomcat-8.5.11 tomcat
+
+vi /etc/sysconfig/iptables (open port)
+---
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
+(reject 상위에 작성해야함)
+---
+
+# vim /etc/init.d/tomcat (write script)
+---
+#!/bin/sh
+# chkconfig: 345 90 90
+# description: init file for tomcat
+# processname: tomcat
+
+CATALINA_HOME=/home/apps/tomcat; export CATALINA_HOME
+JAVA_HOME=/home/apps/jdk; export JAVA_HOME
+
+[ -f $CATALINA_HOME/conf/server.xml ] && [ -f $CATALINA_HOME/conf/web.xml ] || exit 0
+
+source /etc/profile
+
+prog=Tomcat
+
+start() {
+    if [ -z "`ps -eaf | grep java|grep $CATALINA_HOME/bin`" ]; then
+        echo -e "Starting $prog: "
+        $CATALINA_HOME/bin/startup.sh
+    else
+        echo -e "Already Started $prog"
+    fi
+}
+
+stop() {
+    if [ -z "`ps -eaf | grep java|grep $CATALINA_HOME/bin`" ]; then
+        echo -e "$prog was not started."
+    else
+        ps -eaf | grep java | grep $CATALINA_HOME/bin | awk '{print $2}' |
+        while read PID
+            do
+                echo -e "Killing $PID ..."
+                kill -9 $PID
+                echo -e "$prog is being shutdowned."
+            done
+    fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo -e $"Usage: $0 {start|stop|restart}"
+esac
+---
+
+# chmod +x /etc/init.d/tomcat
+
+# chkconfig tomcat on
+
+# service tomcat start
+
+# service tomcat restart
+
+# service tomcat stop
 ```
