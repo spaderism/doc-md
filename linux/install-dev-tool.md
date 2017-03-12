@@ -1,27 +1,51 @@
 # Linux(CentOS) Development Tools Setup
 
-**환경변수 등록**
+## 환경변수 등록
 ```
 # vim /etc/profile(edit)
 # source /etc/profile
 ```
 
-**Redis**
+---
+
+## Nginx
 ```
 # cd /home/apps
-
-# wget http://download.redis.io/releases/redis-3.2.8.tar.gz
-
-# tar zxvf redis-3.2.8.tar.gz
-
-# cd redis-3.2.8
-
+# wget http://zlib.net/zlib-1.2.11.tar.gz
+# tar zxvf zlib-1.2.11.tar.gz
+# cd zlib-1.2.11
+# ./configure
 # make
+# make install
 
+# cd /home/apps
+# wget https://sourceforge.net/projects/pcre/files/pcre/8.38/pcre-8.38.tar.gz/download
+# mv download pcre-8.38.tar.gz
+# cd pcre-8.38
+# ./configure
+# make
+# make install
+
+# cd /home/apps
+# wget http://nginx.org/download/nginx-1.10.0.tar.gz
+# tar zxvf nginx-1.10.0.tar.gz
+# cd nginx-1.10.0
+# ./configure --prefix=/home/Apps/nginx
+# make
+# make install
+```
+
+---
+
+## Redis
+```
+# cd /home/apps
+# wget http://download.redis.io/releases/redis-3.2.8.tar.gz
+# tar zxvf redis-3.2.8.tar.gz
+# cd redis-3.2.8
+# make
 # mv /home/apps/redis-3.2.8 /home/apps/redis
-
 # ln -s /home/apps/redis/src/redis-server /usr/local/bin/redis-server
-
 # ln -s /home/apps/redis/src/redis-cli /usr/local/bin/redis-cli
 
 # vim /home/apps/redis/redis.conf
@@ -58,15 +82,13 @@ CONF="/home/apps/redis/redis.conf"
 ---
 
 # chkconfig redis on
-
 # service redis start
-
 # service redis stop
 ```
 
 ---
 
-**Java**
+## Java
 
 [GET Download Url Ref](http://webdevnovice.tistory.com/7)
 ```
@@ -99,17 +121,14 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 ---
 
-**Tomcat**
+## Tomcat
 ```
 # cd /home/apps
-
 # wget http://mirror.navercorp.com/apache/tomcat/tomcat-8/v8.5.11/bin/apache-tomcat-8.5.11.tar.gz
-
 # tar zxvf apache-tomcat-8.5.11.tar.gz
-
 # mv apache-tomcat-8.5.11 tomcat
 
-vi /etc/sysconfig/iptables (open port)
+# vim /etc/sysconfig/iptables (open port)
 ---
 -A INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
 (reject 상위에 작성해야함)
@@ -171,12 +190,86 @@ esac
 ---
 
 # chmod +x /etc/init.d/tomcat
-
 # chkconfig tomcat on
-
 # service tomcat start
-
 # service tomcat restart
-
 # service tomcat stop
+```
+
+---
+
+## Jenkins
+```
+# cp -R /home/apps/tomcat /home/apps/jenkins
+# cd /home/apps/jenkins/webapps
+# wget http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
+# unzip jenkins.war -d ROOT
+# mkdir -p /home/apps/tmp
+# mv jenkins.war /home/apps/tmp/jenkins.war
+```
+
+---
+
+## Node.js
+```
+# cd /home/apps
+# wget https://nodejs.org/dist/v6.10.0/node-v6.10.0-linux-x64.tar.gz --no-check-certificate
+# mkdir -p node/versions
+# mv node-v6.10.0-linux-x64.tar.gz node/versions
+# tar zxvf node-v6.10.0-linux-x64.tar.gz
+# cd /home/apps/node
+# ln -s versions/node-v6.10.0-linux-x64/bin bin
+# ln -s versions/node-v6.10.0-linux-x64/include include
+# ln -s versions/node-v6.10.0-linux-x64/lib lib
+# ln -s versions/node-v6.10.0-linux-x64/share share
+# ln -s /home/apps/node/bin/node /usr/local/bin/node
+# ln -s /home/apps/node/bin/npm /usr/local/bin/npm
+```
+
+---
+
+## PM2
+```
+# npm install -g pm2@2.2.3
+# ln -s /home/apps/node/bin/pm2 /usr/local/bin/pm2
+# ln -s /home/apps/node/bin/pm2-dev /usr/local/bin/pm2-dev
+```
+
+---
+
+## Git
+```
+# yum -y install git
+```
+
+---
+
+## MariaDB
+```
+# vi /etc/yum.repos.d/MariaDB.repo
+---
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.1/centos6-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+---
+
+# yum repolist (mariadb 확인)
+필요시 MariaDB.repo 파일만 지우면 저장소가 제거된다.
+
+# yum -y install MariaDB-server
+→ DB를 실행하고 패스워드를 설정하라는 안내가 나온다.
+→ 그런데 mysql 이라는 이름이 자꾸 보인다. (문제는 없다.)
+
+# chkconfig mysql on
+# chkconfig --list mysql
+
+# service mysql start
+# /usr/bin/mysqladmin -u root password 'P@ssw0rd'
+
+접속확인
+# mysql -u root -p
+Enter Password:
+MariaDB [(none)]> quit
 ```

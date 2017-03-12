@@ -74,6 +74,7 @@ ntsysv : 부팅시 자동실행 서비스 관리
 system-config-firewall-tui : 리눅스 방화벽 설정 패키지
 system-config-network-tui : 리눅스 네트워크 설정 패키지
 
+yum -y update
 yum -y groupinstall 'Development Tools'
 yum -y install bind-utils
 yum -y install vim
