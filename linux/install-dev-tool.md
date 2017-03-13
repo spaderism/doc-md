@@ -21,6 +21,7 @@
 # cd /home/apps
 # wget https://sourceforge.net/projects/pcre/files/pcre/8.38/pcre-8.38.tar.gz/download
 # mv download pcre-8.38.tar.gz
+# tar zxvf pcre-8.38.tar.gz
 # cd pcre-8.38
 # ./configure
 # make
@@ -30,7 +31,7 @@
 # wget http://nginx.org/download/nginx-1.10.0.tar.gz
 # tar zxvf nginx-1.10.0.tar.gz
 # cd nginx-1.10.0
-# ./configure --prefix=/home/Apps/nginx
+# ./configure --prefix=/home/apps/nginx
 # make
 # make install
 ```
@@ -93,17 +94,10 @@ CONF="/home/apps/redis/redis.conf"
 [GET Download Url Ref](http://webdevnovice.tistory.com/7)
 ```
 # cd /home/apps
-
 # wget http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz?AuthParam=1489157561_86dbe18f98e0f124e40423489019ba11
-
-# tar zxvf jdk-8u121-linux-x64.tar.gz
-
 # mv jdk-8u121-linux-x64.tar.gz\?AuthParam\=1489157561_86dbe18f98e0f124e40423489019ba11 jdk-8u121-linux-x64.tar.gz
-
 # tar zxvf jdk-8u121-linux-x64.tar.gz
-
 # mv jdk1.8.0_121 jdk
-
 # ln -s /home/apps/jdk/bin/java /usr/local/bin/java
 # ln -s /home/apps/jdk/bin/javac /usr/local/bin/javac
 # ln -s /home/apps/jdk/bin/javap /usr/local/bin/javap
@@ -206,6 +200,30 @@ esac
 # unzip jenkins.war -d ROOT
 # mkdir -p /home/apps/tmp
 # mv jenkins.war /home/apps/tmp/jenkins.war
+# cd /home/apps/jenkins/bin
+# ./startup.sh
+
+--- 초기 비밀번호 입력
+# cat /root/.jenkins/secrets/initialAdminPassword
+
+--- jenkins plugins 설치
+Install suggested plugins 클릭
+
+--- Create First Admin User
+어드민 사용자 등록
+
+--- 추가 plugins 설치
+Jenkins 관리 -> 플러그인 관리
+  - Checkstyle Plug-in
+  - Cobertuna Plugin
+  - Simple Theme Plugin
+
+--- 테마 설정.
+{{color-name}} : red, pink, purple, deep-purple, indigo, blue,
+                 light-blue, cyan, teal, green, light-green, lime,
+                 yellow, amber, orange, deep-orange, brown, grey, blue-grey
+Jenkins 관리 -> 시스템 설정 -> Set the CSS field to the generated URL
+: https://afonsof.com/jenkins-material-theme/dist/material-{{color-name}}.css
 ```
 
 ---
@@ -216,6 +234,7 @@ esac
 # wget https://nodejs.org/dist/v6.10.0/node-v6.10.0-linux-x64.tar.gz --no-check-certificate
 # mkdir -p node/versions
 # mv node-v6.10.0-linux-x64.tar.gz node/versions
+# cd /home/apps/node/versions
 # tar zxvf node-v6.10.0-linux-x64.tar.gz
 # cd /home/apps/node
 # ln -s versions/node-v6.10.0-linux-x64/bin bin
@@ -240,6 +259,19 @@ esac
 ## Git
 ```
 # yum -y install git
+# yum -y install curl-devel expat-devel gettext-devel openssl-devel zlib-devel
+# yum -y install  gcc perl-ExtUtils-MakeMaker
+# yum -y remove git
+# cd /usr/src
+# wget https://www.kernel.org/pub/software/scm/git/git-2.12.0.tar.gz
+# tar xzf git-2.12.0.tar.gz
+# cd git-2.12.0
+# make prefix=/usr/local/git all
+# make prefix=/usr/local/git install
+# echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/bashrc
+# source /etc/bashrc
+# git --version
+git version 2.12.0
 ```
 
 ---
