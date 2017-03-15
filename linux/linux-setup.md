@@ -1,6 +1,15 @@
 # Linux(CentOS) Setup
+**Table of Contents**
+- [Install procedure](#install-procedure)
+- [Network setting](#network-setting)
+- [Package install](#package-install)
+- [gcc 4.8 upgrade](#gcc-48-upgrade)
+- [Kernel Update](#kernel-update)
+- [User Setting](#user-setting)
 
 **iso file to usb boot disk convert [iso2usb](http://iso2usb.sourceforge.net/)**
+
+---
 
 ## Install procedure
 ---
@@ -148,4 +157,37 @@ title CentOS (3.10.105-1.el6.elrepo.x86_64)
 ---
 
 # reboot
+```
+
+---
+
+## User Setting
+```
+--- create user
+# useradd testuser
+# cat /etc/passwd | grep testuser
+
+--- change password
+# echo 'P@ssw0rd' | passwd -- stdin testuser
+Changing password for user testuser.
+passwd: all authentication tokens updated successfully.
+
+--- deny root login
+# vi /etc/ssh/sshd_config
+---
+PermitRootLogin no
+---
+
+# service sshd restart
+
+--- sudo setting
+# vi /etc/sudoers
+---
+## Allow root to run any commands anywhere
+root ALL=(ALL) ALL
+user 추가..
+
+## Same thing without a password
+%wheel ALL=(ALL) NOPASSWD:ALL (주석 제거)
+---
 ```
